@@ -1,0 +1,75 @@
+_schema-version: "3.2"
+ID: Showcase-FE
+version: 0.0.1
+modules:
+- name: Showcase-FE-router
+  type: approuter.nodejs
+  path: cf/router
+  requires:
+  - name: Showcase-FE-html5-repo-runtime
+  - name: Showcase-FE-uaa
+  - name: Showcase-FE-destination
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  - name: Showcase-FE-connectivity
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+    routes:
+    - route: https://Showcase-FE-${org}-${space}.${default-domain}
+- name: Showcase-FE-deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: Showcase-FE-html5-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - abap.zip
+      name: abap
+      target-path: resources/
+- name: abap
+  type: html5
+  path: abap
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: Showcase-FE-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: Showcase-FE-${org}
+    service: xsuaa
+    service-plan: application
+- name: Showcase-FE-html5-repo-runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: Showcase-FE-destination
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-plan: lite
+- name: Showcase-FE-html5-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: Showcase-FE-connectivity
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-plan: lite

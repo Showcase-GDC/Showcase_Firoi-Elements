@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:smartfilterbar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core">
+	<!-- Price Filter-->
+	<smartfilterbar:ControlConfiguration key="StatusHelp" index="1" label="Status"
+							visibleInAdvancedArea="true" groupId="_BASIC">
+		<smartfilterbar:customControl>
+			<MultiComboBox id="CustomStatusFilter-combobox">
+                <!-- <core:Item id="CustomStatusFilterItem0" key="0" 
+						text="ALL"/> -->
+				<core:Item id="CustomStatusFilterItem1" key="1" 
+						text="NEW"/>
+				<core:Item id="CustomStatusFilterItem2" key="2" 
+                        text="REPAIRED"/>
+                <core:Item id="CustomStatusFilterItem3" key="3" 
+                        text="CLOSE"/>
+                <core:Item id="CustomStatusFilterItem4" key="4" 
+						text="DELETED"/>
+			</MultiComboBox>
+		</smartfilterbar:customControl>
+	</smartfilterbar:ControlConfiguration> 
+</core:FragmentDefinition>
